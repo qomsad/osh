@@ -2,5 +2,8 @@
   "name": "@axetch/osh",
   "version": "0.1.0",
   "description": "Osh project base package",
-  "private": true
+  "private": true,
+  "workspaces": [
+    "packages/osh-service-admin"
+  ]
 }
