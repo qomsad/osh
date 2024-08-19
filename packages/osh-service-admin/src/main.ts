@@ -16,7 +16,7 @@ async function bootstrap() {
       .setVersion("0.1.0")
       .build();
     const document = SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup("admin-swagger", app, document, {
+    SwaggerModule.setup("admin-api/swagger", app, document, {
       swaggerOptions: {
         filter: true,
         tryItOutEnabled: true,
