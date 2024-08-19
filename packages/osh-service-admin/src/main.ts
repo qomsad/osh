@@ -6,6 +6,8 @@ import "dotenv/config";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  app.setGlobalPrefix("admin-api");
+
   await app.listen(process.env["PORT"] || 3000);
 }
 bootstrap();
