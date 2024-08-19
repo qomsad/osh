@@ -1,0 +1,6 @@
+{
+  "name": "@axetch/osh",
+  "version": "0.1.0",
+  "description": "Osh project base package",
+  "private": true
+}
