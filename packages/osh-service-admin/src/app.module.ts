@@ -20,7 +20,7 @@ export class AppModule {
         session({
           store: new RedisStore({
             client: this.redis,
-            prefix: "osh",
+            prefix: "osh-admin-session:",
           }),
           secret: process.env["SESSION_SECRET"]!,
           resave: false,
