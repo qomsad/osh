@@ -1,14 +1,16 @@
+import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { Inject, MiddlewareConsumer, Module } from "@nestjs/common";
 import RedisStore from "connect-redis";
 import session from "express-session";
 import passport from "passport";
 import { RedisClientType } from "redis";
 import { AuthModule } from "./auth/auth.module";
+import { DomainModule } from "./domain/domain.module";
 import { RedisClient } from "./redis/provider/redis-client.provider";
 import { RedisModule } from "./redis/redis.module";
 
 @Module({
-  imports: [AuthModule, RedisModule],
+  imports: [AuthModule, RedisModule, MikroOrmModule.forRoot(), DomainModule],
   controllers: [],
   providers: [],
 })
