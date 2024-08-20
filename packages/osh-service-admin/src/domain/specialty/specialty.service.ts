@@ -24,7 +24,7 @@ export class SpecialtyService {
     ]);
   }
 
-  public async getById(id: string): Promise<SpecialtyDto> {
+  public async getObject(id: string): Promise<Specialty> {
     const entity = await this.repository.findOne({ id });
     if (!entity) {
       throw new NotFoundException(
@@ -32,6 +32,10 @@ export class SpecialtyService {
       );
     }
     return entity;
+  }
+
+  public async getById(id: string): Promise<SpecialtyDto> {
+    return await this.getObject(id);
   }
 
   public async create(dto: SpecialtyCreateDto): Promise<SpecialtyDto> {
@@ -47,14 +51,14 @@ export class SpecialtyService {
     id: string,
     dto: SpecialtyUpdateDto,
   ): Promise<SpecialtyDto> {
-    const entity = await this.getById(id);
+    const entity = await this.getObject(id);
     wrap(entity).assign(dto);
     await this.repository.getEntityManager().flush();
     return entity;
   }
 
   public async delete(id: string): Promise<void> {
-    const entity = await this.getById(id);
+    const entity = await this.getObject(id);
     this.repository.getEntityManager().removeAndFlush(entity);
   }
 }

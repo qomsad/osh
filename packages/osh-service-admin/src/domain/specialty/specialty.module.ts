@@ -8,5 +8,6 @@ import { SpecialtyService } from "./specialty.service";
   imports: [MikroOrmModule.forFeature([Specialty])],
   providers: [SpecialtyService],
   controllers: [SpecialtyController],
+  exports: [SpecialtyService],
 })
 export class SpecialtyModule {}
