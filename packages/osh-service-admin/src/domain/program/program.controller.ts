@@ -13,44 +13,41 @@ import {
 import { ApiTags } from "@nestjs/swagger";
 import { AdminRoleGuard } from "../../shared/guard/admin-role.guard";
 import { PaginatedDto } from "../../shared/pagination/dto/paginated.dto";
-import { SpecialistQueryPageDto } from "./dto/query-specialist.dto";
-import { SpecialistCreateDto } from "./dto/specialist-create.dto";
-import { SpecialistUpdateDto } from "./dto/specialist-update.dto";
-import { SpecialistDto } from "./dto/specialist.dto";
-import { SpecialistService } from "./specialist.service";
+import { ProgramCreateDto } from "./dto/program-create.dto";
+import { ProgramDto } from "./dto/program.dto";
+import { ProgramQueryPageDto } from "./dto/query-program.dto";
+import { ProgramService } from "./program.service";
 
-@ApiTags("Specialist")
-@Controller("specialist")
+@ApiTags("Program")
+@Controller("program")
 @UseGuards(AdminRoleGuard)
-export class SpecialistController {
-  constructor(private readonly service: SpecialistService) {}
+export class ProgramController {
+  constructor(private readonly service: ProgramService) {}
 
   @Get()
   public async get(
-    @Query() query: SpecialistQueryPageDto,
-  ): Promise<PaginatedDto<SpecialistDto>> {
+    @Query() query: ProgramQueryPageDto,
+  ): Promise<PaginatedDto<ProgramDto>> {
     return this.service.get(query);
   }
 
   @Get(":id")
   public async getById(
     @Param("id", ParseIntPipe) id: number,
-  ): Promise<SpecialistDto> {
+  ): Promise<ProgramDto> {
     return this.service.getById(`${id}`);
   }
 
   @Post()
-  public async create(
-    @Body() dto: SpecialistCreateDto,
-  ): Promise<SpecialistDto> {
+  public async create(@Body() dto: ProgramCreateDto): Promise<ProgramDto> {
     return this.service.create(dto);
   }
 
   @Put(":id")
   public async update(
     @Param("id", ParseIntPipe) id: number,
-    @Body() dto: SpecialistUpdateDto,
-  ): Promise<SpecialistDto> {
+    @Body() dto: ProgramCreateDto,
+  ): Promise<ProgramDto> {
     return this.service.update(`${id}`, dto);
   }
 

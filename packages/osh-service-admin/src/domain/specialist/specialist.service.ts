@@ -23,8 +23,7 @@ export class SpecialistService {
   ): Promise<PaginatedDto<SpecialistDto>> {
     const qb = this.repository
       .createQueryBuilder("s")
-      .leftJoinAndSelect("s.specialty", "sp")
-      .join("s.specialty", "sp");
+      .leftJoinAndSelect("s.specialty", "sp");
     if (query.specialtyId) {
       qb.andWhere({ specialty: { id: query.specialtyId } });
     }
