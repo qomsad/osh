@@ -1,6 +1,6 @@
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { EntityRepository, wrap } from "@mikro-orm/postgresql";
-import { NotFoundException } from "@nestjs/common";
+import { ConflictException, NotFoundException } from "@nestjs/common";
 import { Meta } from "../../shared/embedded/model/meta.embeddable";
 import { PaginatedDto } from "../../shared/pagination/dto/paginated.dto";
 import { requestPage } from "../../shared/pagination/helpers/request-page";
@@ -54,10 +54,17 @@ export class SpecialistService {
   }
 
   public async create(dto: SpecialistCreateDto): Promise<SpecialistDto> {
-    const { specialtyId, ...specialist } = dto;
+    const { specialtyId, login, ...specialist } = dto;
     const specialty = await this.specialtyService.getObject(specialtyId);
+
+    const checkLogin = await this.repository.find({ login });
+    if (checkLogin.length > 0) {
+      throw new ConflictException("Специалист с таким логином уже существует");
+    }
+
     const entity = this.repository.create({
       ...specialist,
+      login,
       specialty,
       meta: new Meta(),
     });
@@ -70,8 +77,14 @@ export class SpecialistService {
     dto: SpecialistUpdateDto,
   ): Promise<SpecialistDto> {
     const entity = await this.getObject(id);
-    const { specialtyId, ...specialist } = dto;
-    wrap(entity).assign(specialist);
+    const { specialtyId, login, ...specialist } = dto;
+
+    const checkLogin = await this.repository.find({ login });
+    if (checkLogin.length > 0) {
+      throw new ConflictException("Специалист с таким логином уже существует");
+    }
+
+    wrap(entity).assign({ ...specialist, login });
     if (specialtyId) {
       const specialty = await this.specialtyService.getObject(specialtyId);
       wrap(entity).assign({ specialty });
