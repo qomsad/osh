@@ -3,9 +3,9 @@ import { EntityRepository, wrap } from "@mikro-orm/postgresql";
 import { NotFoundException } from "@nestjs/common";
 import { Meta } from "../../shared/embedded/model/meta.embeddable";
 import { PaginatedDto } from "../../shared/pagination/dto/paginated.dto";
-import { QueryPageDto } from "../../shared/pagination/dto/query-page.dto";
 import { requestPage } from "../../shared/pagination/helpers/request-page";
 import { SpecialtyService } from "../specialty/specialty.service";
+import { SpecialistQueryPageDto } from "./dto/query-specialist.dto";
 import { SpecialistCreateDto } from "./dto/specialist-create.dto";
 import { SpecialistUpdateDto } from "./dto/specialist-update.dto";
 import { SpecialistDto } from "./dto/specialist.dto";
@@ -18,8 +18,17 @@ export class SpecialistService {
     private readonly specialtyService: SpecialtyService,
   ) {}
 
-  public async get(query: QueryPageDto): Promise<PaginatedDto<SpecialistDto>> {
-    return await requestPage(this.repository.createQueryBuilder(), query, [
+  public async get(
+    query: SpecialistQueryPageDto,
+  ): Promise<PaginatedDto<SpecialistDto>> {
+    const qb = this.repository
+      .createQueryBuilder("s")
+      .leftJoinAndSelect("s.specialty", "sp")
+      .join("s.specialty", "sp");
+    if (query.specialtyId) {
+      qb.andWhere({ specialty: { id: query.specialtyId } });
+    }
+    return await requestPage(qb, query, [
       "serviceNumber",
       "firstName",
       "lastName",
@@ -28,7 +37,10 @@ export class SpecialistService {
   }
 
   public async getObject(id: string): Promise<Specialist> {
-    const entity = await this.repository.findOne({ id });
+    const entity = await this.repository.findOne(
+      { id },
+      { populate: ["specialty"] },
+    );
     if (!entity) {
       throw new NotFoundException(
         `Не найден специалист с идентификатором ${id}`,
