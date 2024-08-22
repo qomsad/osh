@@ -49,7 +49,7 @@ export class SpecialistService {
   }
 
   public async getById(id: string): Promise<SpecialistDto> {
-    return this.getObject(id);
+    return await this.getObject(id);
   }
 
   public async create(dto: SpecialistCreateDto): Promise<SpecialistDto> {
@@ -94,6 +94,6 @@ export class SpecialistService {
 
   public async delete(id: string): Promise<void> {
     const entity = await this.getObject(id);
-    this.repository.getEntityManager().removeAndFlush(entity);
+    await this.repository.getEntityManager().removeAndFlush(entity);
   }
 }

@@ -29,21 +29,21 @@ export class SpecialistController {
   public async get(
     @Query() query: SpecialistQueryPageDto,
   ): Promise<PaginatedDto<SpecialistDto>> {
-    return this.service.get(query);
+    return await this.service.get(query);
   }
 
   @Get(":id")
   public async getById(
     @Param("id", ParseIntPipe) id: number,
   ): Promise<SpecialistDto> {
-    return this.service.getById(`${id}`);
+    return await this.service.getById(`${id}`);
   }
 
   @Post()
   public async create(
     @Body() dto: SpecialistCreateDto,
   ): Promise<SpecialistDto> {
-    return this.service.create(dto);
+    return await this.service.create(dto);
   }
 
   @Put(":id")
@@ -51,11 +51,11 @@ export class SpecialistController {
     @Param("id", ParseIntPipe) id: number,
     @Body() dto: SpecialistUpdateDto,
   ): Promise<SpecialistDto> {
-    return this.service.update(`${id}`, dto);
+    return await this.service.update(`${id}`, dto);
   }
 
   @Delete(":id")
   public async delete(@Param("id", ParseIntPipe) id: number): Promise<void> {
-    return this.service.delete(`${id}`);
+    return await this.service.delete(`${id}`);
   }
 }

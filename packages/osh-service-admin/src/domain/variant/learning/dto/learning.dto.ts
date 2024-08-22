@@ -1,5 +1,11 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { LearningFileDto } from "./learning-file.dto";
+import { LearningFileType } from "../entity/learning-file.entity";
+
+export class LearningFileDto {
+  public id!: string;
+  public fid!: string;
+  public type!: LearningFileType;
+}
 
 export class LearningDto {
   public id!: string;

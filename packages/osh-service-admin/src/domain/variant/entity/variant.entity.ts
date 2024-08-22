@@ -23,10 +23,18 @@ export class Variant {
   @Property({ type: "text", nullable: true })
   public description?: string;
 
-  @OneToMany({ entity: () => Learning, mappedBy: (e) => e.variant })
+  @OneToMany({
+    entity: () => Learning,
+    mappedBy: (e) => e.variant,
+    orphanRemoval: true,
+  })
   public learnings = new Collection<Learning>(this);
 
-  @OneToMany({ entity: () => Training, mappedBy: (e) => e.variant })
+  @OneToMany({
+    entity: () => Training,
+    mappedBy: (e) => e.variant,
+    orphanRemoval: true,
+  })
   public trainings = new Collection<Training>(this);
 
   @Property({ type: "int", nullable: false })

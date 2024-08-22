@@ -59,6 +59,6 @@ export class SpecialtyService {
 
   public async delete(id: string): Promise<void> {
     const entity = await this.getObject(id);
-    this.repository.getEntityManager().removeAndFlush(entity);
+    await this.repository.getEntityManager().removeAndFlush(entity);
   }
 }
