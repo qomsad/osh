@@ -25,7 +25,7 @@ export class Program {
   @ManyToOne({ entity: () => Specialty, nullable: false })
   public specialty!: Specialty;
 
-  @OneToMany(() => Variant, (variant) => variant.program)
+  @OneToMany({ entity: () => Variant, mappedBy: (e) => e.program })
   public variants = new Collection<Variant>(this);
 
   @Embedded(() => Meta)

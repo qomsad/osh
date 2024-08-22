@@ -30,14 +30,14 @@ export class ProgramService {
     return await requestPage(qb, query, ["name"]);
   }
 
-  public async getObject(id: string): Promise<ProgramDto> {
+  public async getObject(id: string): Promise<Program> {
     const entity = await this.repository.findOne(
       { id },
       { populate: ["specialty"] },
     );
     if (!entity) {
       throw new NotFoundException(
-        `Не найден специалист с идентификатором ${id}`,
+        `Не найдена программа с идентификатором ${id}`,
       );
     }
     return entity;

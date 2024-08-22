@@ -20,7 +20,7 @@ export class Learning {
   @Property({ type: "text", nullable: true })
   public text?: string;
 
-  @OneToMany(() => LearningFile, (learningFile) => learningFile.learning)
+  @OneToMany({ entity: () => LearningFile, mappedBy: (e) => e.learning })
   public files = new Collection<LearningFile>(this);
 
   @ManyToOne({ entity: () => Variant, nullable: false })

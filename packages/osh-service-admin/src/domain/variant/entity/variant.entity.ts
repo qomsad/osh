@@ -23,10 +23,10 @@ export class Variant {
   @Property({ type: "text", nullable: true })
   public description?: string;
 
-  @OneToMany(() => Learning, (learning) => learning.variant)
+  @OneToMany({ entity: () => Learning, mappedBy: (e) => e.variant })
   public learnings = new Collection<Learning>(this);
 
-  @OneToMany(() => Training, (training) => training.variant)
+  @OneToMany({ entity: () => Training, mappedBy: (e) => e.variant })
   public trainings = new Collection<Training>(this);
 
   @Property({ type: "int", nullable: false })
@@ -39,7 +39,7 @@ export class Variant {
   public trainingSuccessRate?: number;
 
   @ManyToOne({ entity: () => Program, nullable: false })
-  public program!: string;
+  public program!: Program;
 
   @Embedded(() => Meta)
   public meta!: Meta;

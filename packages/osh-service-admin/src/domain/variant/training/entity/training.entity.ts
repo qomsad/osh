@@ -21,7 +21,7 @@ export class Training {
   @Property({ type: "text", nullable: false })
   public question!: string;
 
-  @OneToMany(() => TrainingAnswer, (trainingAnswer) => trainingAnswer.training)
+  @OneToMany({ entity: () => TrainingAnswer, mappedBy: (e) => e.training })
   public answers = new Collection<TrainingAnswer>(this);
 
   @ManyToOne({ entity: () => Variant, nullable: false })

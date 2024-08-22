@@ -14,5 +14,6 @@ import { ProgramService } from "./program.service";
   ],
   controllers: [ProgramController],
   providers: [ProgramService],
+  exports: [ProgramService],
 })
 export class ProgramModule {}
