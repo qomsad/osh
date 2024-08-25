@@ -4,7 +4,8 @@
   "description": "Osh project base package",
   "private": true,
   "workspaces": [
-    "packages/osh-service-admin"
+    "packages/osh-service-admin",
+    "packages/osh-webapp-admin"
   ],
   "scripts": {
     "format": "npx prettier --write",

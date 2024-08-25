@@ -1,0 +1,6 @@
+{
+  "name": "@axetch/osh-webapp-admin",
+  "version": "0.1.0",
+  "description": "Frontend for osh admin service",
+  "private": true
+}
