@@ -1,7 +1,11 @@
 import { wrap } from "@mikro-orm/core";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { EntityRepository } from "@mikro-orm/postgresql";
-import { Injectable, NotFoundException } from "@nestjs/common";
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { Meta } from "../../shared/embedded/model/meta.embeddable";
 import { PaginatedDto } from "../../shared/pagination/dto/paginated.dto";
 import { QueryPageDto } from "../../shared/pagination/dto/query-page.dto";
@@ -59,6 +63,12 @@ export class SpecialtyService {
 
   public async delete(id: string): Promise<void> {
     const entity = await this.getObject(id);
-    await this.repository.getEntityManager().removeAndFlush(entity);
+    try {
+      await this.repository.getEntityManager().removeAndFlush(entity);
+    } catch {
+      throw new ConflictException(
+        "Со специальностью связаны другие записи, сначала удалите их",
+      );
+    }
   }
 }
