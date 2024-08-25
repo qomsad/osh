@@ -1,6 +1,10 @@
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { EntityRepository, wrap } from "@mikro-orm/postgresql";
-import { Injectable, NotFoundException } from "@nestjs/common";
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { Meta } from "../../shared/embedded/model/meta.embeddable";
 import { PaginatedDto } from "../../shared/pagination/dto/paginated.dto";
 import { requestPage } from "../../shared/pagination/helpers/request-page";
@@ -73,6 +77,12 @@ export class ProgramService {
 
   public async delete(id: string): Promise<void> {
     const entity = await this.getObject(id);
-    await this.repository.getEntityManager().removeAndFlush(entity);
+    try {
+      await this.repository.getEntityManager().removeAndFlush(entity);
+    } catch {
+      throw new ConflictException(
+        "С программой связаны другие записи, сначала удалите их",
+      );
+    }
   }
 }
