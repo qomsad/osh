@@ -1,4 +1,5 @@
 import {
+  Cascade,
   Collection,
   Entity,
   ManyToOne,
@@ -20,7 +21,12 @@ export class Learning {
   @Property({ type: "text", nullable: true })
   public text?: string;
 
-  @OneToMany({ entity: () => LearningFile, mappedBy: (e) => e.learning })
+  @OneToMany({
+    entity: () => LearningFile,
+    mappedBy: (e) => e.learning,
+    orphanRemoval: true,
+    cascade: [Cascade.ALL],
+  })
   public files = new Collection<LearningFile>(this);
 
   @ManyToOne({ entity: () => Variant, nullable: false })

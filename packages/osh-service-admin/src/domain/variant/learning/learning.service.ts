@@ -24,15 +24,19 @@ export class LearningService {
     const qb = this.repository
       .createQueryBuilder("l")
       .select("l.*")
+      .leftJoinAndSelect("files", "f")
       .andWhere({ variant: { id: variantId } });
     return await requestPage(qb, query, ["name"]);
   }
 
   public async getObject(variantId: string, id: string): Promise<Learning> {
-    const entity = await this.repository.findOne({
-      variant: { id: variantId },
-      id,
-    });
+    const entity = await this.repository.findOne(
+      {
+        variant: { id: variantId },
+        id,
+      },
+      { populate: ["files"] },
+    );
     if (!entity) {
       throw new NotFoundException(
         `Не найден обучающий материал с идентификатором ${id} ` +

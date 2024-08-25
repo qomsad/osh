@@ -1,4 +1,5 @@
 import {
+  Cascade,
   Collection,
   Entity,
   Enum,
@@ -21,7 +22,12 @@ export class Training {
   @Property({ type: "text", nullable: false })
   public question!: string;
 
-  @OneToMany({ entity: () => TrainingAnswer, mappedBy: (e) => e.training })
+  @OneToMany({
+    entity: () => TrainingAnswer,
+    mappedBy: (e) => e.training,
+    orphanRemoval: true,
+    cascade: [Cascade.ALL],
+  })
   public answers = new Collection<TrainingAnswer>(this);
 
   @ManyToOne({ entity: () => Variant, nullable: false })

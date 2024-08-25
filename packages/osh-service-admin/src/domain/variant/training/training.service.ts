@@ -24,15 +24,19 @@ export class TrainingService {
     const qb = this.repository
       .createQueryBuilder("t")
       .select("t.*")
+      .leftJoinAndSelect("answers", "a")
       .andWhere({ variant: { id: variantId } });
     return await requestPage(qb, query, ["question"]);
   }
 
   public async getObject(variantId: string, id: string): Promise<Training> {
-    const entity = await this.repository.findOne({
-      variant: { id: variantId },
-      id,
-    });
+    const entity = await this.repository.findOne(
+      {
+        variant: { id: variantId },
+        id,
+      },
+      { populate: ["answers"] },
+    );
     if (!entity) {
       throw new NotFoundException(
         `Не найден вопрос с идентификатором ${id} ` +
