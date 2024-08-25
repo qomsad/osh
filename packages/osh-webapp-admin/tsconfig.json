@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    /* ECMAScript APIs */
+    "lib": ["ESNext"],
+
+    /* Compiler options */
+    "outDir": "./dist",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es2016",
+    "sourceMap": true,
+    "declaration": true,
+
+    /* Type checking */
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strict": true,
+
+    /* Recommended */
+    "allowJs": false,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* JSX */
+    "jsx": "react"
+  },
+  "include": ["src/**/*"]
+}
